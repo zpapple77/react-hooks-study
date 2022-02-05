@@ -1,15 +1,13 @@
-import React, { Component } from 'react'
-
-export default class Position extends Component {
-  render() {
-    return (
-      <div>
-        <h3>当前鼠标的位置</h3>
-        <div>
-          {/* 这里直接从props里面去拿值 */}
-          ({this.props.x},{this.props.y})
-        </div>
-      </div>
-    )
-  }
-}
+const Position = ({ x = 0, y = 0, left = 0, top = 0 }) => (
+  <div>
+    <h3>当前鼠标的位置</h3>
+    <div>
+      ({x},{y})
+    </div>
+    <h3>当前滚动条的位置</h3>
+    <div>
+      {left}-{top}
+    </div>
+  </div>
+)
+export default Position
