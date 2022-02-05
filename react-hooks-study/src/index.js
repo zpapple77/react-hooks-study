@@ -3,20 +3,19 @@ import ReactDOM from 'react-dom'
 import Mouse from './Mouse'
 import Dog from './Dog'
 import Position from './Position'
+import Scroll from './Scroll'
 const element = (
-  <div>
+  <div style={{height:10000,width:10000}}>
     <h1>根组件</h1>
-    <Mouse
-      render={({ x, y }) => (
-        <Dog x={x} y={y}></Dog>
+    {/* <Mouse>{({ x, y }) => <Dog x={x} y={y}></Dog>}</Mouse>
+    <Mouse>{(state) => <Position {...state}></Position>}</Mouse> */}
+    <Scroll>
+      {({ left, top }) => (
+        <div style={{position:'fixed'}}>
+          {left}-{top}
+        </div>
       )}
-    ></Mouse>
-    <Mouse
-      render={({state }) => (
-        <Position {...state}></Position>
-      )}
-    ></Mouse>
-
+    </Scroll>
   </div>
 )
 
