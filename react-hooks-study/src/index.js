@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Position from './Position'
-import Dog from './Dog'
+// import Dog from './Dog'
 import withMouse from './withMouse'
 import withScroll from './withScroll'
 
