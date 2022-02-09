@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <h3>我当前的数量:<span>0</span></h3>
+      <button class="add">+1</button>
+      <button class="minus">-1</button>
+    </div>
+    <script src="node_modules/redux/dist//redux.js"></script>
+    <script>
+      // 添加任务
+      const add = () => {
+        return {
+          type: 'ADD',
+        }
+      }
+      const minus = () => {
+        return {
+          type: 'MINUS',
+        }
+      }
+
+      //reducer的作用，处理action
+      //1.reducer的state需要有一个默认值，这个默认值就是redux的初始值
+      //2.reducer内部需要判断action的type，根据type进行处理，处理的时候不能修改原来的数据
+      //3.reducer遇到不认识的type,一定要返回原来的state（重要）
+      function reducer(state = 100, action) {
+        // if(action.type==='ADD'){
+        //     return state+1
+        // }
+        // if(action.type==='MINUS'){
+        //     return state-1
+        // }
+        switch (action.type) {
+          case 'ADD':
+            return state + 1
+          case 'MINUS':
+            return state - 1
+          default:
+            return state
+        }
+      }
+
+      //store
+      const { createStore } = window.Redux
+      //创建store的时候必须传递reducer
+      const store = createStore(reducer)
+      document.querySelector('span').innerHTML=store.getState()
+      
+      console.log(store)
+      //store.getState() 作用：获取redux中的数据
+      console.log(store.getState()) //100
+      //订阅：只要state发生了变化，这个订阅的回调函数就会执行
+      //返回值：调用了unsubscribe就会取消订阅
+      const unsubscribe =  store.subscribe(() => {
+        console.log(store.getState())
+        document.querySelector('span').innerHTML=store.getState()
+      })
+      
+      document.querySelector('.add').onclick = function(){
+        store.dispatch(add())
+      }
+      document.querySelector('.minus').onclick = function(){
+        store.dispatch(minus())
+      }
+
+    setTimeout(() => { unsubscribe() }, 5000)//5秒钟之后不能用
+    </script>
+  </body>
+</html>

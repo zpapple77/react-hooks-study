@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <h3>我当前的数量:<span>0</span></h3>
+      <button>+1</button>
+      <button>-1</button>
+    </div>
+    <script src="node_modules/redux/dist//redux.js"></script>
+    <script>
+        //添加任务
+        const action = {
+            type:'ADD_TODO',
+            name:'吃饭',
+        }
+        //action creator:专家
+        const delTodo = (id) => {
+            return {
+                type:'DEL_TODO',
+                id
+            }
+        }
+
+        console.log(delTodo(5));
+        console.log(delTodo(10));
+
+        despatch(delTodo(5))
+    </script>
+  </body>
+</html>
