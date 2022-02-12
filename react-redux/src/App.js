@@ -1,27 +1,26 @@
-import Women from './components/Women'
-import Man from './components/Man'
-import { useSelector } from 'react-redux'
-export default function App() {
-  // @ts-ignore
-  const money = useSelector(state=>state.money)
-  // @ts-ignore
-  const user = useSelector(state=>state.user)
-  
+import TodoHeader from './components/TodoHeader'
+import TodoMain from './components/TodoMain'
+import TodoFooter from './components/TodoFooter'
+
+import './styles/base.css'
+import './styles/index.css'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { getListAsync } from './store/actions/todos'
+
+const App = () => {
+  const dispatch = useDispatch()
+  //发送请求
+  useEffect(()=>{
+    dispatch(getListAsync())
+  },[dispatch])
   return (
-    <div>
-      <h1>我是根组件</h1>
-      <div>家庭的金钱:{money}</div>
-      <hr />
-      <Women></Women>
-      <hr />
-      <Man></Man>
-      <hr />
-      <hr />
-      <hr />
-      <h2>用户管理模块</h2>
-      <div>用户姓名:{user.name}</div>
-      <div>用户的token:XXX</div>
-      <div>用户的年龄:{user.age}</div>
-    </div>
+    <section className="todoapp">
+      <TodoHeader />
+      <TodoMain />
+      <TodoFooter />
+    </section>
   )
 }
+
+export default App
