@@ -1,8 +1,6 @@
 import { useSelector } from 'react-redux'
 import TodoItem from './TodoItem'
 const TodoMain = () => {
-  
-
   const list = useSelector(state=>{
     const {filter,todos} = state
     if(filter==='active'){
