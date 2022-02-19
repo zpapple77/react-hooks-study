@@ -14,6 +14,14 @@ const alias = addWebpackAlias({
   '@scss': path.resolve(__dirname, 'src', 'assets', 'styles')
 })
 
+/**
+ * css处理器 
+ *  预处理器：less sass stylus
+ *  后处理器：postcss（js中的babel）
+ *    autoprefixer：自动添加前缀  transform：
+ *    pxtorem：px转成rem
+ *    pxtoviewport：px转成vw
+ */
 // 移动端布局 - viewport 适配方案
 const viewport = pxToViewport({
   // 设计稿的宽度
