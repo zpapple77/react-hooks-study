@@ -1,4 +1,3 @@
-//为了路径有提示
 {
   "compilerOptions": {
     "baseUrl": "./",
