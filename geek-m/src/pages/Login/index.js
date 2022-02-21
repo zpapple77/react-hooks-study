@@ -4,9 +4,28 @@ import Input from '@/components/Input'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import classNames from 'classnames'
+import { useDispatch } from 'react-redux'
+import { sendCode } from '@/store/actions/login'
+import { Toast} from 'antd-mobile';
 export default function Login() {
-  const onExtraClick = () => {
-    console.log('aaa')
+  const dispatch = useDispatch()
+  const onExtraClick = async () => {
+    //先对手机号进行验证
+    if (!/^1[3-9]\d{9}$/.test(mobile)) {
+      formik.setTouched({
+        mobile: true, //点击获取验证码的时候会触发手机号表单的失去焦点
+      })
+      return
+    }
+    try{
+      await dispatch(sendCode(mobile))
+      
+      Toast.success('获取验证码成功',1)
+    }catch(err){
+      console.log(err);
+      Toast.info(err.response.data.message,1)
+    }
+    dispatch(sendCode(mobile))
   }
   const formik = useFormik({
     //表单提供初始值
@@ -34,7 +53,7 @@ export default function Login() {
     handleBlur,
     touched,
     errors,
-    isValid
+    isValid,
   } = formik
   return (
     <div className={styles.root}>
@@ -75,7 +94,11 @@ export default function Login() {
             ) : null}
           </div>
           {/* 登录按钮 */}
-          <button type="submit" className={classNames('login-btn',{disabled:!isValid})} disabled={!isValid}>
+          <button
+            type="submit"
+            className={classNames('login-btn', { disabled: !isValid })}
+            disabled={!isValid}
+          >
             登录
           </button>
         </form>
