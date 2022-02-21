@@ -3,6 +3,7 @@ import styles from './index.module.scss'
 import Input from '@/components/Input'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import classNames from 'classnames'
 export default function Login() {
   const onExtraClick = () => {
     console.log('aaa')
@@ -33,8 +34,8 @@ export default function Login() {
     handleBlur,
     touched,
     errors,
+    isValid
   } = formik
-  console.log(formik)
   return (
     <div className={styles.root}>
       {/* 标题 */}
@@ -51,6 +52,7 @@ export default function Login() {
               autoComplete="off" //自动提示关闭
               onChange={handleChange}
               onBlur={handleBlur}
+              maxLength={11}
             ></Input>
             {touched.mobile && errors.mobile ? (
               <div className="validate">手机号验证错误信息</div>
@@ -66,13 +68,14 @@ export default function Login() {
               autoComplete="off" //自动提示关闭
               onChange={handleChange}
               onBlur={handleBlur}
+              maxLength={6}
             ></Input>
             {touched.code && errors.code ? (
               <div className="validate">验证码验证错误信息</div>
             ) : null}
           </div>
           {/* 登录按钮 */}
-          <button type="submit" className="login-btn">
+          <button type="submit" className={classNames('login-btn',{disabled:!isValid})} disabled={!isValid}>
             登录
           </button>
         </form>
