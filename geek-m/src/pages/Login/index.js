@@ -2,6 +2,7 @@ import NavBar from '@/components/NavBar'
 import styles from './index.module.scss'
 import Input from '@/components/Input'
 import { useFormik } from 'formik'
+import * as Yup from 'yup'
 export default function Login() {
   const onExtraClick = () => {
     console.log('aaa')
@@ -16,16 +17,14 @@ export default function Login() {
     onSubmit: (values) => {
       console.log(values)
     },
-    validate(values) {
-      const errors = {}
-      if (!values.mobile) {
-        errors.mobile = '手机号不能为空'
-      }
-      if (!values.code) {
-        errors.code = '验证码不能为空'
-      }
-      return errors
-    },
+    validationSchema: Yup.object({
+      mobile: Yup.string()
+        .required('手机号不能为空')
+        .matches(/^1[3-9]\d{9}$/, '手机号格式错误'),
+      code: Yup.string()
+        .required('验证码不能为空')
+        .matches(/\d{6}$/, '验证码格式错误'),
+    }),
   })
   const {
     values: { mobile, code },
@@ -35,7 +34,7 @@ export default function Login() {
     touched,
     errors,
   } = formik
-  console.log(formik);
+  console.log(formik)
   return (
     <div className={styles.root}>
       {/* 标题 */}
@@ -51,8 +50,9 @@ export default function Login() {
               name="mobile"
               autoComplete="off" //自动提示关闭
               onChange={handleChange}
+              onBlur={handleBlur}
             ></Input>
-            {touched.mobile&&errors.mobile ? (
+            {touched.mobile && errors.mobile ? (
               <div className="validate">手机号验证错误信息</div>
             ) : null}
           </div>
@@ -65,9 +65,9 @@ export default function Login() {
               name="code"
               autoComplete="off" //自动提示关闭
               onChange={handleChange}
-              onBlur = {handleBlur}
+              onBlur={handleBlur}
             ></Input>
-            {touched.code&&errors.code ? (
+            {touched.code && errors.code ? (
               <div className="validate">验证码验证错误信息</div>
             ) : null}
           </div>
