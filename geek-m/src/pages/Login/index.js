@@ -6,31 +6,46 @@ import * as Yup from 'yup'
 import classNames from 'classnames'
 import { useDispatch } from 'react-redux'
 import { sendCode } from '@/store/actions/login'
-import { Toast} from 'antd-mobile';
+import { Toast } from 'antd-mobile'
+import { useState } from 'react'
 export default function Login() {
   const dispatch = useDispatch()
+  const [time,setTime] = useState(0)
   const onExtraClick = async () => {
     //先对手机号进行验证
     if (!/^1[3-9]\d{9}$/.test(mobile)) {
+      if(time>0) return//倒计时没结束不可以发起请求
       formik.setTouched({
         mobile: true, //点击获取验证码的时候会触发手机号表单的失去焦点
       })
       return
     }
-    try{
+    try {
       await dispatch(sendCode(mobile))
-      
-      Toast.success('获取验证码成功',1)
-    }catch(err){
-      console.log(err);
-      Toast.info(err.response.data.message,1)
+      Toast.success('获取验证码成功', 1)
+
+      //开启倒计时
+      setTime(60)
+      let timeId = setInterval(() => {
+        //当我们每次都想要获取到最新的状态，需要写成箭头函数的形式
+        setTime(time=>{
+          if(time===1){clearInterval(timeId)}
+          return time-1})
+        
+      },1000)
+    } catch (err) {
+      if(err.response){
+        Toast.info(err.response.data.message,1)
+      }else{
+        Toast.info('服务器繁忙，请稍后再试')
+      }
     }
     dispatch(sendCode(mobile))
   }
   const formik = useFormik({
     //表单提供初始值
     initialValues: {
-      mobile: '',
+      mobile: '13912346543',
       code: '',
     },
     //当表单提交的时候会触发
@@ -80,7 +95,7 @@ export default function Login() {
           <div className="input-item">
             <Input
               placeholder="请输入验证码"
-              extra="获取验证码"
+              extra={time===0?'获取验证码':time+'s后获取'}
               onExtraClick={onExtraClick}
               value={code}
               name="code"
