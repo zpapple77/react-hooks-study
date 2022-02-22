@@ -2,6 +2,7 @@
  * 创建store
  */
 
+import { getTokenInfo } from '@/utils/storage'
 import { applyMiddleware, createStore } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk'
@@ -13,9 +14,11 @@ const store = createStore(
   rootReducer,
 
   // 参数二：初始化时要加载的状态
-  {},
+  {
+    login: getTokenInfo(),
+  },
 
-  // 参数三：增强器
+  // 参数三：增强器(中间件)
   composeWithDevTools(applyMiddleware(thunk))
 )
 
