@@ -6,7 +6,7 @@ import {
   Redirect,
 } from 'react-router-dom'
 const Login = React.lazy(() => import('@/pages/Login'))
-const Home = React.lazy(() => import('@/pages/Home'))
+const Home = React.lazy(() => import('@/pages/Layout'))
 
 export default function App() {
   return (
