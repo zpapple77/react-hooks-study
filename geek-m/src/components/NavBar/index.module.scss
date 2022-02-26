@@ -8,7 +8,7 @@
   // padding: 0 42px;
   background-color: #fff;
   // border-bottom: 1px solid #ccc;
-  @include hairline('bottom');
+  @include hairline('bottom',#ccc);
 
   :global {
     .left {

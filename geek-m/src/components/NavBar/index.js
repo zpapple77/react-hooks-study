@@ -12,11 +12,15 @@ import { useHistory } from 'react-router'
 
 //2.路由提供了几个和路由相关的hook
 // useHistory useLocation useParams
-function NavBar({ children, extra }) {
+function NavBar({ children, extra ,onLeftClick}) {
   const history = useHistory()
   const back = () => {
     // 跳回上一页
+    if(onLeftClick){
+      onLeftClick()
+    }else{
     history.go(-1)
+    }
   }
   return (
     <div className={styles.root}>

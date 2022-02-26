@@ -39,7 +39,7 @@ export default function Login() {
   const formik = useFormik({
     //表单提供初始值
     initialValues: {
-      mobile: '13912346543',
+      mobile: '13911111111',
       code: '',
     },
     //当表单提交的时候会触发
