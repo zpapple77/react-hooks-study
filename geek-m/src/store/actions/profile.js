@@ -1,5 +1,5 @@
 import http from "@/utils/request"
-import { SAVE_PROFILE, SAVE_USER } from "../action_types/profile"
+import {  SAVE_PROFILE, SAVE_USER } from "../action_types/profile"
 
 /**
  * 
@@ -52,3 +52,13 @@ export const updateProfile = (data)=>{
     dispatch(getProfile())
   }
 }
+
+export const updatePhoto = (formdata)=>{
+  return async dispatch=>{
+    //上传图片
+    await http.patch('/user/photo',formdata)
+    //上传完成之后直接重新获取用户基本信息
+    dispatch(getProfile())
+  }
+}
+

@@ -40,12 +40,12 @@ export default function Login() {
     //表单提供初始值
     initialValues: {
       mobile: '13911111111',
-      code: '',
+      code: '246810',
     },
     //当表单提交的时候会触发
     async onSubmit(values) {
       await dispatch(login(values))
-      Toast.success('登入成功')
+      Toast.success('登入成功',1)
       history.push('/home')
     },
     validationSchema: Yup.object({

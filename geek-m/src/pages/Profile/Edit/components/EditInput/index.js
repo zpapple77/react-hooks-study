@@ -28,6 +28,7 @@ export default function EditInput({ onClose, type, onCommit }) {
             className="input-wrap"
             value={value}
             onChange={(e) => setValue(e.target.value)}
+            autofocus
           ></Input>
         ) : (
           <Textarea
