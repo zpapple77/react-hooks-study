@@ -5,6 +5,7 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom'
+import AuthRoute from '@/components/AuthRoute'
 const Login = React.lazy(() => import('@/pages/Login'))
 const Home = React.lazy(() => import('@/pages/Layout'))
 const ProfileEdit = React.lazy(() => import('@/pages/Profile/Edit'))
@@ -21,8 +22,10 @@ export default function App() {
             <Redirect exact from="/" to="/home"></Redirect>
             <Route path="/login" component={Login}></Route>
             <Route path="/home" component={Home}></Route>
-            <Route path="/profile/edit" component={ProfileEdit}></Route>
-            <Route path="/profile/chat" component={ProfileChat}></Route>
+
+            {/* 需要登入鉴权才能访问的两个页面 */}
+            <AuthRoute path="/profile/edit" component={ProfileEdit}></AuthRoute>
+            <AuthRoute path="/profile/chat" component={ProfileChat}></AuthRoute>
           </Switch>
         </Suspense>
       </div>

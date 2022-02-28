@@ -8,10 +8,11 @@ import { useDispatch } from 'react-redux'
 import { login, sendCode } from '@/store/actions/login'
 import { Toast } from 'antd-mobile'
 import { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 export default function Login() {
   const history = useHistory()
   const dispatch = useDispatch()
+  const location = useLocation()
   const [time, setTime] = useState(0)
   const onExtraClick = async () => {
     //先对手机号进行验证
@@ -45,8 +46,10 @@ export default function Login() {
     //当表单提交的时候会触发
     async onSubmit(values) {
       await dispatch(login(values))
-      Toast.success('登入成功',1)
-      history.push('/home')
+      Toast.success('登入成功', 1)
+      // history.push('/home')
+      const pathname = location.state?location.state.from:'./home'
+      history.push(pathname)
     },
     validationSchema: Yup.object({
       mobile: Yup.string()
