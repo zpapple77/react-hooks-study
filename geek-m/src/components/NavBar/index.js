@@ -3,6 +3,7 @@ import Icon from '@/components/Icon'
 import styles from './index.module.scss'
 //2.使用hooks
 import { useHistory } from 'react-router'
+import classNames from 'classnames'
 
 //1.withRouter
 // import { withRouter } from 'react-router-dom'
@@ -12,7 +13,7 @@ import { useHistory } from 'react-router'
 
 //2.路由提供了几个和路由相关的hook
 // useHistory useLocation useParams
-function NavBar({ children, extra ,onLeftClick}) {
+function NavBar({ children, extra ,onLeftClick,className}) {
   const history = useHistory()
   const back = () => {
     // 跳回上一页
@@ -23,7 +24,7 @@ function NavBar({ children, extra ,onLeftClick}) {
     }
   }
   return (
-    <div className={styles.root}>
+    <div className={classNames(styles.root,className)}>
       {/* 后退按钮 */}
       <div className="left">
         <Icon type="iconfanhui" onClick={back} />
