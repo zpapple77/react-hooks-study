@@ -37,6 +37,12 @@ export default function Login() {
       })
     }, 1000)
   }
+  /**
+   * gistory.go(-1) 页面回退
+   * gistory.go(1) 页面前进
+   * gistory.push() 页面跳转，并且王页面中添加一条记录
+   * gistory.replace(-1) 页面跳转，但是不会天机啊一天记录，并且替换当前记录
+   */
   const formik = useFormik({
     //表单提供初始值
     initialValues: {
@@ -49,7 +55,7 @@ export default function Login() {
       Toast.success('登入成功', 1)
       // history.push('/home')
       const pathname = location.state?location.state.from:'./home'
-      history.push(pathname)
+      history.replace(pathname)
     },
     validationSchema: Yup.object({
       mobile: Yup.string()
