@@ -1,6 +1,6 @@
 import login from './login'
 import profile from './profile'
-
+import home from './home'
 
 import { combineReducers } from 'redux'
 
@@ -8,7 +8,8 @@ import { combineReducers } from 'redux'
 const rootReducer = combineReducers({
   // 一个测试用的 reducer，避免运行时因没有 reducer 而报错
   login,
-  profile
+  profile,
+  home
   // 在这里配置有所的 reducer ...
 })
 
