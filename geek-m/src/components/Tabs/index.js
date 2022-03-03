@@ -5,11 +5,12 @@ import PropTypes from 'prop-types'
 import styles from './index.module.scss'
 import React from 'react'
 
+//index是高亮的下标，onChange是高亮下标改变的事件，tabs是所有的tabs以一个数组的形式传递过来的
 const Tabs = ({ index = 0, tabs = [], children, onChange }) => {
   const navRef = useRef()
   const lineRef = useRef()
 
-  const [activeIndex, setActiveIndex] = useState(index)
+  const [activeIndex, setActiveIndex] = useState(index)//高亮下标和修改高亮下标的方法
 
   const changeTab = (index) => {
     setActiveIndex(index)
@@ -22,10 +23,10 @@ const Tabs = ({ index = 0, tabs = [], children, onChange }) => {
     setActiveIndex(index)
   }, [index])
 
-  useEffect(() => {
+  useEffect(() => {//这个useEffect实现点击某个tabs之后让其居中
     // TODO: 清理上一次的 animate
-
     const activeTab = navRef.current.children[activeIndex]
+    if(!activeTab) return  
 
     const activeTabWidth = activeTab.offsetWidth || 60
     // 注意：第一次获取 offsetLeft 值为 0 ，以后每次获取为 8
@@ -41,7 +42,7 @@ const Tabs = ({ index = 0, tabs = [], children, onChange }) => {
     function animate() {
       navRef.current.scrollLeft += (to - from) / frames
 
-      if (++count < frames) {
+      if (++count < frames) {//做动画
         requestAnimationFrame(animate)
       }
     }

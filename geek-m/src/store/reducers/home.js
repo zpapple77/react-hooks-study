@@ -1,7 +1,8 @@
-import { SAVE_CHANNELS, SAVE_ALL_CHANNELS } from '../action_types/home'
+import { SAVE_CHANNELS, SAVE_ALL_CHANNELS, SAVE_ARTICLE_LIST } from '../action_types/home'
 const initValue = {
   userChannels: [],
-  allChannels:[]
+  allChannels:[],
+  articles:{}
 }
 function reducer(state = initValue, action) {
   const { type, payload } = action
@@ -15,6 +16,18 @@ function reducer(state = initValue, action) {
       return {
         ...state,
         allChannels:payload
+      }
+    case SAVE_ARTICLE_LIST:
+      return {
+        ...state,
+        articles:{
+          ...state.articles,
+          //属性名是表达式必须加中括号
+          [payload.channelId]:{ 
+            timestamp:payload.tempstamp,
+            list:payload.list
+          }
+        }
       }
     default:
       return state
