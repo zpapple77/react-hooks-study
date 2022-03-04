@@ -1,6 +1,11 @@
 import http from '@/utils/request'
 import { getLoacalChannels, hasToken, setLocalChannels } from '@/utils/storage'
-import { SAVE_ALL_CHANNELS, SAVE_ARTICLE_LIST, SAVE_CHANNELS } from '../action_types/home'
+import {
+  SAVE_ALL_CHANNELS,
+  SAVE_ARTICLE_LIST,
+  SAVE_CHANNELS,
+  SAVE_MORE_ARTICLE_LIST,
+} from '../action_types/home'
 
 /**
  * 获取用户的频道
@@ -74,29 +79,29 @@ export const delChannel = (channel) => {
       //没有登入
       //修改本地，修该redux
       const result = userChannels.filter((item) => item.id !== channel.id)
-      dispatch(saveUserChannels(result))//redux
-      setLocalChannels(result)//本地
+      dispatch(saveUserChannels(result)) //redux
+      setLocalChannels(result) //本地
     }
   }
 }
 
 //添加频道
-export const addChannel = (channel)=>{
-  return async (dispatch,getState)=>{
+export const addChannel = (channel) => {
+  return async (dispatch, getState) => {
     // console.log(getState());
-   const channels =  [
-      ...getState().home.userChannels,//原来的频道
-      channel
+    const channels = [
+      ...getState().home.userChannels, //原来的频道
+      channel,
     ]
 
     //有token，发请求，往redux传一份
-    if(hasToken()){
+    if (hasToken()) {
       //登入了  发请求添加
-      await http.patch('/user/channels',{
-        channels:[channel]
+      await http.patch('/user/channels', {
+        channels: [channel],
       })
       dispatch(saveUserChannels(channels))
-    }else{
+    } else {
       // 没有token 直接往redux存一份,往本地存一份
       dispatch(saveUserChannels(channels))
       setLocalChannels(channels)
@@ -104,26 +109,54 @@ export const addChannel = (channel)=>{
   }
 }
 
-
 //获取文章列表数据
-export const getArticleList = (channelId,timestamp)=>{
-  return async dispatch=>{
-    const res = await http.get('/articles', {
+export const getArticleList = (channelId, timestamp) => {
+  return async (dispatch) => {
+    const res = await http({
+      method: 'get',
+      url: '/articles',
       params: {
+        timestamp: timestamp,
         channel_id: channelId,
-        timestamp: +new Date(),
       },
     })
-    dispatch(setArticleList({
-      channelId,
-      timestamp:res.data.pre_timestamp,
-      list:res.data.results
-    }))
+    dispatch(
+      setArticleList({
+        channelId,
+        timestamp: res.data.pre_timestamp,
+        list: res.data.results,
+      })
+    )
   }
 }
-export const setArticleList = (payload)=>{
+export const getMoreArticleList = (channelId, timestamp) => {
+  return async (dispatch) => {
+    const res = await http({
+      method: 'get',
+      url: '/articles',
+      params: {
+        timestamp: timestamp,
+        channel_id: channelId,
+      },
+    })
+    dispatch(
+      setMoreArticleList({
+        channelId,
+        timestamp: res.data.pre_timestamp,
+        list: res.data.results,
+      })
+    )
+  }
+}
+export const setArticleList = (payload) => {
   return {
     type: SAVE_ARTICLE_LIST,
-    payload
+    payload,
+  }
+}
+export const setMoreArticleList = (payload) => {
+  return {
+    type: SAVE_MORE_ARTICLE_LIST,
+    payload,
   }
 }

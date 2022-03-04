@@ -1,4 +1,6 @@
 .root {
+  height: 100%;
+  overflow-y: scroll;
   :global {
     .am-pull-to-refresh {
       height: 100%;

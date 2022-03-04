@@ -1,4 +1,4 @@
-import { getArticleList } from '@/store/actions/home'
+import { getArticleList, getMoreArticleList } from '@/store/actions/home'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import ArticleItem from '../ArticleItem'
@@ -23,25 +23,43 @@ const ArticleList = ({ channelId, activeId }) => {
     }
   }, [channelId, activeId, dispatch, current])
   const onRefresh = async () => {
+    setHasMore(true)
     //下拉刷新需要加载最新的数据
     await dispatch(getArticleList(channelId, Date.now))
   }
   //是否有更多数据
   const [hasMore, setHasMore] = useState(true)
   //代表是否正在加载数据
-  const [loading,setLoading] = useState(false)
-  const loadMore = () => {
-    console.log('需要加载更多数据')
-    // setHasMore(false)
-    if(loading) return
-
+  const [loading, setLoading] = useState(false)
+  const loadMore = async () => {
+    //如果正在加载中，不允许重复加载
+    if (loading) return
+    //如果不是当前频道，也不用加载
+    if (channelId !== activeId) return
+    // 如果没有timestamp，代表没有更多数据了
+    if (!current.timestamp) {
+      setHasMore(false)
+      return
+    }
+    //正在加载
     setLoading(true)
-    console.log('需要加载更多数据');
-    setTimeout(() => { setLoading(false) }, 2000)
+    try {
+      await dispatch(getMoreArticleList(channelId, current.timestamp))
+    } finally {
+      setLoading(false)
+    }
+
+    // setLoading(true)
+    // console.log(current, 'current')
+    // try {
+    //   setHasMore(true)
+    //   await dispatch(getArticleList(channelId, current.timestamp))
+    // } finally {
+    //   setLoading(false)
+    // }
   }
   //如果不是当前频道,没有文章数据,先不渲染(优化)
   if (!current) return null
-  console.log(current)
   return (
     <div className={styles.root}>
       <PullToRefresh onRefresh={onRefresh}>
@@ -53,6 +71,7 @@ const ArticleList = ({ channelId, activeId }) => {
           ))}
         </div>
       </PullToRefresh>
+
       {/* 上拉加载更多 */}
       <InfiniteScroll loadMore={loadMore} hasMore={hasMore}></InfiniteScroll>
     </div>
