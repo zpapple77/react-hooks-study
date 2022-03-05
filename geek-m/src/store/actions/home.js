@@ -154,9 +154,15 @@ export const setArticleList = (payload) => {
     payload,
   }
 }
-export const setMoreArticleList = (payload) => {
+const setMoreArticleList = (payload) => {
   return {
     type: SAVE_MORE_ARTICLE_LIST,
     payload,
   }
 }
+
+
+export const setMoreAction = ({ id, visible }) => ({
+  type: 'home/more_action',
+  payload: { id, visible }
+})

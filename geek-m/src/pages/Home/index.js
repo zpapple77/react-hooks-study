@@ -7,6 +7,7 @@ import Icon from '@/components/Icon'
 import { Drawer } from 'antd-mobile'
 import Channels from './Component/Channels'
 import ArticleList from './Component/ArticleList'
+import MoreAction from './Component/MoreAction'
 export default function Home() {
   const dispatch = useDispatch()
   useEffect(() => {
@@ -70,6 +71,7 @@ export default function Home() {
         }
         open={open}
       ></Drawer>
+      <MoreAction></MoreAction>
     </div>
   )
 }

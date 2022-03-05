@@ -46,8 +46,7 @@ export const saveProfile = (payload) =>{
 //修改用户信息
 export const updateProfile = (data)=>{
   return async dispatch=>{
-    const res = await http.patch('/user/profile',data)
-    console.log(res);
+    await http.patch('/user/profile',data)
     //更新（修改成功之后）直接重新获取用户基本信息
     dispatch(getProfile())
   }
