@@ -5,11 +5,13 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/zh-cn' //导入中文包
 import Img from '@/components/Img'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { setMoreAction } from '@/store/actions/home'
 dayjs.extend(relativeTime) //扩展dayjs,让它有相对时间的功能
 dayjs.locale('zh-cn')
 
-const ArticleItem = ({ article }) => {
+const ArticleItem = ({ article ,channelId}) => {
+  const dispatch = useDispatch()
   //解构
   const {
     cover: { type, images },
@@ -18,7 +20,7 @@ const ArticleItem = ({ article }) => {
     comm_count,
     pubdate,
   } = article
-  const isLogin = useSelector(state=>!!state.login.token)
+  const isLogin = useSelector((state) => !!state.login.token)
   return (
     <div className={styles.root}>
       <div
@@ -47,7 +49,20 @@ const ArticleItem = ({ article }) => {
         {/* fromNow距离现在的事件 */}
         <span>{dayjs(pubdate).fromNow()}</span>
         <span className="close">
-          {isLogin&&<Icon type="iconbtn_essay_close" />}
+          {isLogin && (
+            <Icon
+              type="iconbtn_essay_close"
+              onClick={() =>
+                dispatch(
+                  setMoreAction({
+                    visible: true,
+                    articleId: article.art_id,
+                    channelId
+                  })
+                )
+              }
+            />
+          )}
         </span>
       </div>
     </div>

@@ -8,6 +8,11 @@ const initValue = {
   userChannels: [],
   allChannels: [],
   articles: {},
+  moreAction: {
+    visible: false,
+    articleId: '',
+    channelId:''
+  },
 }
 function reducer(state = initValue, action) {
   const { type, payload } = action
@@ -35,22 +40,27 @@ function reducer(state = initValue, action) {
           [channelId]: {
             timestamp: timestamp,
             //如果是loadMore，追加数据，否则覆盖数据
-            list:list,
+            list: list,
           },
         },
       }
-      case SAVE_MORE_ARTICLE_LIST:
-        return{
-          ...state,
-          articles:{
-            ...state.articles,
-            [payload.channelId]:{
-              timestamp:payload.timestamp,
-              list:[...state.articles[payload.channelId].list,...payload.list]
-            }
-
-          }
-        }
+    case SAVE_MORE_ARTICLE_LIST:
+      return {
+        ...state,
+        articles: {
+          ...state.articles,
+          [payload.channelId]: {
+            timestamp: payload.timestamp,
+            list: [...state.articles[payload.channelId].list, ...payload.list],
+          },
+        },
+      }
+    case 'home/setMoreAction':{
+      return {
+        ...state,
+        moreAction:payload
+      }
+    }
     default:
       return state
   }

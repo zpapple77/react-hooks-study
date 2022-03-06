@@ -161,8 +161,57 @@ const setMoreArticleList = (payload) => {
   }
 }
 
-
-export const setMoreAction = ({ id, visible }) => ({
-  type: 'home/more_action',
-  payload: { id, visible }
+export const setMoreAction = (payload) => ({
+  type: 'home/setMoreAction',
+  payload,
 })
+
+export const unLikeArticle = (articleId) => {
+  return async (dispatch, getState) => {
+    await http({
+      method: 'post',
+      url: '/article/dislikes',
+      data: {
+        target: articleId,
+      },
+    })
+    //把当前频道对应的文章删除
+    const channelId = getState().home.moreAction.channelId
+    const articles = getState().home.articles[channelId]
+
+    dispatch(
+      setArticleList({
+        channelId,
+        timestamp:articles.timestamp,
+        list: articles.list.filter((item) => item.art_id !== articleId),
+      })
+    )
+  }
+}
+
+
+export const reportArticle = (articleId,reportId)=>{
+  // console.log(articleId,reportId);
+  return async (dispatch, getState) => {
+    await http({
+      method: 'post',
+      url: '/article/reports',
+      data: {
+        target: articleId,
+        type:reportId
+      },
+    })
+    //把当前频道对应的文章删除
+    const channelId = getState().home.moreAction.channelId
+    const articles = getState().home.articles[channelId]
+
+    dispatch(
+      setArticleList({
+        channelId,
+        timestamp:articles.timestamp,
+        list: articles.list.filter((item) => item.art_id !== articleId),
+      })
+    )
+  }
+
+}

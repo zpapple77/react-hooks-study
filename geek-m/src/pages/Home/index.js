@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react'
 import styles from './index.module.scss'
 import Tabs from '@/components/Tabs'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllChannels, getUserChannels } from '@/store/actions/home'
+import {
+  getAllChannels,
+  getUserChannels,
+  setMoreAction,
+} from '@/store/actions/home'
 import Icon from '@/components/Icon'
 import { Drawer } from 'antd-mobile'
 import Channels from './Component/Channels'
@@ -38,6 +42,11 @@ export default function Home() {
         index={active}
         onChange={(e) => {
           setActive(e)
+          dispatch(setMoreAction({
+            visible:false,
+            articleId:'',
+            channelId:tabs[e].id
+          }))
         }}
       >
         {/* 放对应数量的ArticleList */}
@@ -65,7 +74,9 @@ export default function Home() {
             <Channels
               onClose={onClose}
               index={active}
-              onChange={(e) => setActive(e)}
+              onChange={(e) => {
+                setActive(e)
+              }}
             ></Channels>
           )
         }
