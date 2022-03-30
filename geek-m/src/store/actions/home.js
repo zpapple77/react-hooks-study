@@ -9,6 +9,10 @@ import {
 
 /**
  * 获取用户的频道
+ * actions 只是描述了*有事情发生了*这一事实，而不是真正修改数据的位置
+ * action 是任务的抽象，视图中的每个用户交互都是一个 action，比如：添加任务、删除任务、登录、加入购物车 等
+ * action 本质上是 JavaScript 普通对象
+ * action 内必须使用一个字符串类型的 `type` 字段来表示将要执行的动作
  */
 export const getUserChannels = () => {
   return async (dispatch) => {
